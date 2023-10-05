@@ -23,7 +23,7 @@ pip install .
 
 To uninstall the package run:
 ~~~bash
-pip uninstall AdventOfCode2022
+pip uninstall aoc2022
 ~~~
 
 ## To run:

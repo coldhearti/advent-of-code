@@ -1,5 +1,5 @@
 [project]
-name = "AdventOfCode2022"
+name = "aoc2022"
 description = "Advent Of Code 2022 solutions."
 dynamic = ["version"]
 authors = [{ name = "Eemil Kiviahde", email = "admin@coldheart.dev" }]
