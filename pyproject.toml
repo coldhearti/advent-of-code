@@ -5,6 +5,7 @@ dynamic = ["version"]
 authors = [{ name = "Eemil Kiviahde", email = "admin@coldheart.dev" }]
 license = { file = "./LICENSE.md" }
 readme = "./README.md"
+dependencies = ["termcolor"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
