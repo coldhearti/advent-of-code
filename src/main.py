@@ -26,7 +26,7 @@ from days import (
     day_8,
     day_9,
 )
-from days.exc import NotStartedError, WorkingOnItError
+from exc import NotStartedError, WorkingOnItError
 
 __version__ = "0.0.1"
 __desc__ = "Advent Of Code 2022 solutions."

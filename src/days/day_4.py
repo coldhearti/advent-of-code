@@ -1,4 +1,4 @@
-from .exc import NOT_STARTED
+from exc import NOT_STARTED
 
 
 def solve(input):

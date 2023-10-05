@@ -1,4 +1,4 @@
-from .exc import WORKING_ON_IT
+from exc import WORKING_ON_IT
 
 
 def solve(input):
