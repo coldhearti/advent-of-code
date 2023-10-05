@@ -1,0 +1,13 @@
+[project]
+name = "AdventOfCode2022"
+description = "Advent Of Code 2022 solutions."
+dynamic = ["version"]
+authors = [{ name = "Eemil Kiviahde", email = "admin@coldheart.dev" }]
+license = { file = "./LICENSE.md" }
+readme = "./README.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "main.__version__" }
