@@ -13,7 +13,7 @@
           / /___/ /_/ / / /_/ / / / /  __/ /_/ / /  / /_
           \____/\____/_/\__,_/_/ /_/\___/\__,_/_/   \__/
 
-                                                    © coldhearti (2023)
+                                                    © coldheart (2023)
 ~~~
 ## Installation
 To install the package run:
