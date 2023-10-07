@@ -57,8 +57,9 @@ def print_solution(msg, answer):
 
 def main():
     solutions = {
-        "Day 1, elf calorie maximum": (day_1.solve, "./inputs/day_1"),
-        "Day 2, ----": (day_2.solve, None),
+        "Day 1, Elf calorie maximum": (day_1.solve_part_1, "./inputs/day_1"),
+        "Day 2 part 1, Rock-Paper-Scissors score": (day_2.solve_part_1, "./inputs/day_2"),
+        "Day 2 part 2, Rock-Paper-Scissors strategy score": (day_2.solve_part_2, "./inputs/day_2"),
         "Day 3, ----": (day_3.solve, None),
         "Day 4, ----": (day_4.solve, None),
         "Day 5, ----": (day_5.solve, None),
