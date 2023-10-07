@@ -1,3 +1,4 @@
+from typing import List
 from termcolor import colored
 from days import (
     day_1,
@@ -86,28 +87,22 @@ def main():
         "Day 25, ----": (day_25.solve, None),
     }
 
-    last_was_error = False
+    errors: List[str] = []
+    in_progress: List[str] = []
     for description, solver in solutions.items():
         try:
             print_solution(description, solver[0](*solver[1::]))
-            last_was_error = False
-            input("Next?")
         except NotStartedError as e:
-            if not last_was_error:
-                print(colored(f"\n{'-'*50}", "blue"))
-            if last_was_error:
-                print(colored(f"{e}", "red"))
-            else:
-                print(colored(f"\n{e}", "red"))
-            last_was_error = True
+            errors.append(str(e))
         except WorkingOnItError as e:
-            if not last_was_error:
-                print(colored(f"\n{'-'*50}", "blue"))
-            if last_was_error:
-                print(colored(f"{e}", "yellow"))
-            else:
-                print(colored(f"\n{e}", "yellow"))
-            last_was_error = True
+            in_progress.append(str(e))
+
+    errors[::4] = [f"\n{err}" for err in errors[::4]]
+    in_progress[::4] = [f"\n{prog}" for prog in in_progress[::4]]
+    if len(errors) > 0:
+        print(colored(f"Not implemented yet:{', '.join(errors)}", "red"))
+    if len(in_progress) > 0:
+        print(colored(f"Under construction:{', '.join(in_progress)}", "yellow"))
 
 
 if __name__ == "__main__":

@@ -7,8 +7,8 @@ class WorkingOnItError(Exception):
 
 
 def WORKING_ON_IT(name):
-    raise WorkingOnItError(f"{name} Solution under construction!")
+    raise WorkingOnItError(f"{name}")
 
 
 def NOT_STARTED(name):
-    raise NotStartedError(f"{name} Not implemented yet!")
+    raise NotStartedError(f"{name}")
