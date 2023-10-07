@@ -15,6 +15,15 @@
 
                                                     © coldheart (2023)
 ~~~
+
+## About
+Advent of Code is an Advent calendar of small programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language.
+
+This repo contains solutions to the 2022 Advent of Code.
+
+The puzzles and more information:
+https://adventofcode.com/2022
+
 ## Installation
 To install the package run:
 ~~~bash
