@@ -1,16 +1,30 @@
-def solve(inputPath):
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class Elf:
+    calories: int = 0
+
+
+def get_elves(inputPath):
+    elves: List[Elf] = []
     with open(inputPath, mode="r") as fp:
         lines = fp.readlines()
-        elf_count = 0
-        max_elf_count = 0
-        elf_idx = 0
+        currElf = Elf()
         for line in lines:
             if line.startswith("\n"):
-                if elf_count > max_elf_count:
-                    max_elf_count = elf_count
-                elf_idx += 1
-                elf_count = 0
+                elves.append(currElf)
+                currElf = Elf()
             else:
-                elf_count += int(line.rstrip("\n"))
+                currElf.calories += int(line.rstrip("\n"))
+        elves = sorted(elves, key=lambda elf: elf.calories)
+    return elves
 
-        return max_elf_count
+
+def solve_part_1(inputPath):
+    return get_elves(inputPath)[-1].calories
+
+
+def solve_part_2(inputPath):
+    return sum([elf.calories for elf in get_elves(inputPath)[-3::]])
