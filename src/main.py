@@ -62,7 +62,8 @@ def main():
         "Day 1 part 2, Three top elves calories": (day_1.solve_part_2, "./inputs/day_1"),
         "Day 2 part 1, Rock-Paper-Scissors score": (day_2.solve_part_1, "./inputs/day_2"),
         "Day 2 part 2, Rock-Paper-Scissors strategy score": (day_2.solve_part_2, "./inputs/day_2"),
-        "Day 3, ----": (day_3.solve, None),
+        "Day 3 part 1, Rucksack priorities sum": (day_3.solve_part_1, "./inputs/day_3"),
+        "Day 3 part 2, Rucksack priorities sum": (day_3.solve_part_2, "./inputs/day_3"),
         "Day 4, ----": (day_4.solve, None),
         "Day 5, ----": (day_5.solve, None),
         "Day 6, ----": (day_6.solve, None),
@@ -99,10 +100,10 @@ def main():
 
     errors[::4] = [f"\n{err}" for err in errors[::4]]
     in_progress[::4] = [f"\n{prog}" for prog in in_progress[::4]]
-    if len(errors) > 0:
-        print(colored(f"Not implemented yet:{', '.join(errors)}", "red"))
     if len(in_progress) > 0:
         print(colored(f"Under construction:{', '.join(in_progress)}", "yellow"))
+    if len(errors) > 0:
+        print(colored(f"Not implemented yet:{', '.join(errors)}", "red"))
 
 
 if __name__ == "__main__":
