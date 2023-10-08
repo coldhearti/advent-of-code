@@ -58,15 +58,16 @@ def print_solution(msg, answer):
 
 def main():
     solutions = {
-        "Day 1 part 1, Elf calorie maximum": (day_1.solve_part_1, "./inputs/day_1"),
-        "Day 1 part 2, Three top elves calories": (day_1.solve_part_2, "./inputs/day_1"),
+        "Day 1 part 1, Calorie maximum": (day_1.solve_part_1, "./inputs/day_1"),
+        "Day 1 part 2, Three top calories": (day_1.solve_part_2, "./inputs/day_1"),
         "Day 2 part 1, Rock-Paper-Scissors score": (day_2.solve_part_1, "./inputs/day_2"),
         "Day 2 part 2, Rock-Paper-Scissors strategy score": (day_2.solve_part_2, "./inputs/day_2"),
-        "Day 3 part 1, Rucksack priorities sum": (day_3.solve_part_1, "./inputs/day_3"),
-        "Day 3 part 2, Group rucksack priorities sum": (day_3.solve_part_2, "./inputs/day_3"),
+        "Day 3 part 1, Content priorities sum": (day_3.solve_part_1, "./inputs/day_3"),
+        "Day 3 part 2, Grouped content priorities sum": (day_3.solve_part_2, "./inputs/day_3"),
         "Day 4 part 1, Section assignments contained same range": (day_4.solve_part_1, "./inputs/day_4"),
         "Day 4 part 2, Section assignments overlaped": (day_4.solve_part_2, "./inputs/day_4"),
-        "Day 5, ----": (day_5.solve, None),
+        "Day 5 part 1, Top of stacks after moves": (day_5.solve_part_1, "./inputs/day_5"),
+        "Day 5 part 2, Top of stacks after combined moves": (day_5.solve_part_2, "./inputs/day_5"),
         "Day 6, ----": (day_6.solve, None),
         "Day 7, ----": (day_7.solve, None),
         "Day 8, ----": (day_8.solve, None),
