@@ -63,7 +63,7 @@ def main():
         "Day 2 part 1, Rock-Paper-Scissors score": (day_2.solve_part_1, "./inputs/day_2"),
         "Day 2 part 2, Rock-Paper-Scissors strategy score": (day_2.solve_part_2, "./inputs/day_2"),
         "Day 3 part 1, Rucksack priorities sum": (day_3.solve_part_1, "./inputs/day_3"),
-        "Day 3 part 2, Rucksack priorities sum": (day_3.solve_part_2, "./inputs/day_3"),
+        "Day 3 part 2, Group rucksack priorities sum": (day_3.solve_part_2, "./inputs/day_3"),
         "Day 4, ----": (day_4.solve, None),
         "Day 5, ----": (day_5.solve, None),
         "Day 6, ----": (day_6.solve, None),
