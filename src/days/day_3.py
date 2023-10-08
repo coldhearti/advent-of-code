@@ -3,6 +3,7 @@ import string
 
 
 NUM_CHARS = len(string.ascii_letters)
+GROUP_SIZE = 3
 
 
 def container_priorities(compartment: str) -> List[int]:
@@ -43,8 +44,8 @@ def solve_part_2(inputPath):
     all_group_shared_priorities = []
     with open(inputPath, mode="r") as fp:
         lines = fp.readlines()
-        for i in range(0, len(lines), 3):
-            line_group = lines[i : i + 3]
+        for i in range(0, len(lines), GROUP_SIZE):
+            line_group = lines[i : i + GROUP_SIZE]
             line_group = [line.strip("\n") for line in line_group]
             all_group_shared_priorities.append(find_shared_priorities(*line_group))
     priority_sums = shared_priorities_sum(*all_group_shared_priorities)
