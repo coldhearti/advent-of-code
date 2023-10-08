@@ -105,9 +105,7 @@ def main():
     if len(errors) > 0:
         print(colored(f"Not implemented yet:{', '.join(errors)}", "red"))
 
-    prog_string = (
-        f"Total Progress: {round(100*(-len(in_progress) - len(errors) + len(solutions)) / (len(in_progress) + len(errors) + len(solutions)), 3)} %"
-    )
+    prog_string = f"Total Progress: {round(100*(-len(in_progress) - len(errors) + len(solutions)) / len(solutions), 3)} %"
 
     print(f"\n{prog_string}")
 
