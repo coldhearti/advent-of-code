@@ -1,5 +1,4 @@
 from typing import List
-from exc import WORKING_ON_IT
 import string
 
 
@@ -37,7 +36,6 @@ def solve_part_1(inputPath):
             all_shared_priorities.append(find_shared_priorities(compartment_1, compartment_2))
     priority_sums = shared_priorities_sum(*all_shared_priorities)
     total_priority_sum = sum(priority_sums)
-    # WORKING_ON_IT(__name__)
     return total_priority_sum
 
 
@@ -49,9 +47,6 @@ def solve_part_2(inputPath):
             line_group = lines[i : i + 3]
             line_group = [line.strip("\n") for line in line_group]
             all_group_shared_priorities.append(find_shared_priorities(*line_group))
-
-        # for line_group in:
-        #     print(f"Group: {line_group}")
     priority_sums = shared_priorities_sum(*all_group_shared_priorities)
     total_priority_sum = sum(priority_sums)
     return total_priority_sum
