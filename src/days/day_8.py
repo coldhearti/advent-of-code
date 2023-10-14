@@ -43,3 +43,9 @@ def solve_part_2(input_path: str):
     map: np.ndarray
     with open(input_path, mode="r") as fp:
         map = parse_map(fp.readlines())
+
+    map_shape = map.shape
+
+    for y in range(map_shape[0]):
+        for x in range(map_shape[1]):
+            map[y, x]
