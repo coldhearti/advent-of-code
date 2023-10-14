@@ -81,9 +81,9 @@ class ShapeMap(Enum):
                 return Points.LOST.value + self.value.score
 
 
-def solve_part_1(inputPath):
+def solve_part_1(input_path):
     score = 0
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             line = line.rstrip("\n")
@@ -94,9 +94,9 @@ def solve_part_1(inputPath):
     return score
 
 
-def solve_part_2(inputPath):
+def solve_part_2(input_path):
     score = 0
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             line = line.rstrip("\n")

@@ -24,10 +24,10 @@ def parse_stack_level(line: str) -> List[str]:
     return split_line
 
 
-def parse_stacks_and_moves(inputPath) -> Tuple[Dict[int, List[str]], List[StackMove]]:
+def parse_stacks_and_moves(input_path) -> Tuple[Dict[int, List[str]], List[StackMove]]:
     stacks: Dict[int, List[str]] = {}
     moves: List[StackMove] = []
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines: List[str] = fp.readlines()
         stack_start = []
         for line in lines:
@@ -45,8 +45,8 @@ def parse_stacks_and_moves(inputPath) -> Tuple[Dict[int, List[str]], List[StackM
     return stacks, moves
 
 
-def solve_part_1(inputPath):
-    stacks, moves = parse_stacks_and_moves(inputPath)
+def solve_part_1(input_path):
+    stacks, moves = parse_stacks_and_moves(input_path)
     for move in moves:
         for _ in range(move.num_items):
             item = stacks[move.from_stack].pop()
@@ -55,8 +55,8 @@ def solve_part_1(inputPath):
     return "".join(top_of_stacks)
 
 
-def solve_part_2(inputPath):
-    stacks, moves = parse_stacks_and_moves(inputPath)
+def solve_part_2(input_path):
+    stacks, moves = parse_stacks_and_moves(input_path)
     for move in moves:
         items = stacks[move.from_stack][-move.num_items : :]
         for _ in range(move.num_items):

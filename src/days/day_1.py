@@ -7,9 +7,9 @@ class Elf:
     calories: int = 0
 
 
-def get_elves(inputPath):
+def get_elves(input_path):
     elves: List[Elf] = []
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         currElf = Elf()
         for line in lines:
@@ -22,9 +22,9 @@ def get_elves(inputPath):
     return elves
 
 
-def solve_part_1(inputPath):
-    return get_elves(inputPath)[-1].calories
+def solve_part_1(input_path):
+    return get_elves(input_path)[-1].calories
 
 
-def solve_part_2(inputPath):
-    return sum([elf.calories for elf in get_elves(inputPath)[-3::]])
+def solve_part_2(input_path):
+    return sum([elf.calories for elf in get_elves(input_path)[-3::]])

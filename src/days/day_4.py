@@ -19,9 +19,9 @@ def parse_sections(line):
     return sections_1, sections_2
 
 
-def solve_part_1(inputPath):
+def solve_part_1(input_path):
     pairs_containing = 0
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             sections_1, sections_2 = parse_sections(line)
@@ -30,9 +30,9 @@ def solve_part_1(inputPath):
     return pairs_containing
 
 
-def solve_part_2(inputPath):
+def solve_part_2(input_path):
     pairs_overlapping = 0
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             sections_1, sections_2 = parse_sections(line)

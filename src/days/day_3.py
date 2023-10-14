@@ -25,9 +25,9 @@ def shared_priorities_sum(*shared_priorities: List[bool]) -> List[int]:
     return [x * (i + 1) for i, x in enumerate(shared_priorities_count) if x > 0]
 
 
-def solve_part_1(inputPath):
+def solve_part_1(input_path):
     all_shared_priorities = []
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             line = line.strip("\n")
@@ -40,9 +40,9 @@ def solve_part_1(inputPath):
     return total_priority_sum
 
 
-def solve_part_2(inputPath):
+def solve_part_2(input_path):
     all_group_shared_priorities = []
-    with open(inputPath, mode="r") as fp:
+    with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for i in range(0, len(lines), GROUP_SIZE):
             line_group = lines[i : i + GROUP_SIZE]
