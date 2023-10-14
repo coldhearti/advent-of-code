@@ -27,7 +27,7 @@ from days import (
     day_8,
     day_9,
 )
-from exc import NotStartedError, WorkingOnItError
+from exc import NotImplementedError, UnderConstructionError
 
 __version__ = "0.0.2"
 __desc__ = "Advent Of Code 2022 solutions."
@@ -72,24 +72,42 @@ def main():
         "Day 6 part 2, Characters processed before first start-of-message": (day_6.solve_part_2, "./inputs/day_6"),
         "Day 7 part 1, Directory sizes total": (day_7.solve_part_1, "./inputs/day_7"),
         "Day 7 part 2, Smallest directory of required size": (day_7.solve_part_2, "./inputs/day_7"),
-        "Day 8, ----": (day_8.solve, None),
-        "Day 9, ----": (day_9.solve, None),
-        "Day 10, ----": (day_10.solve, None),
-        "Day 11, ----": (day_11.solve, None),
-        "Day 12, ----": (day_12.solve, None),
-        "Day 13, ----": (day_13.solve, None),
-        "Day 14, ----": (day_14.solve, None),
-        "Day 15, ----": (day_15.solve, None),
-        "Day 16, ----": (day_16.solve, None),
-        "Day 17, ----": (day_17.solve, None),
-        "Day 18, ----": (day_18.solve, None),
-        "Day 19, ----": (day_19.solve, None),
-        "Day 20, ----": (day_20.solve, None),
-        "Day 21, ----": (day_21.solve, None),
-        "Day 22, ----": (day_22.solve, None),
-        "Day 23, ----": (day_23.solve, None),
-        "Day 24, ----": (day_24.solve, None),
-        "Day 25, ----": (day_25.solve, None),
+        "Day 8 part 1, ----": (day_8.solve_part_1, None),
+        "Day 8 part 2, ----": (day_8.solve_part_2, None),
+        "Day 9 part 1, ----": (day_9.solve_part_1, None),
+        "Day 9 part 2, ----": (day_9.solve_part_2, None),
+        "Day 10 part 1, ----": (day_10.solve_part_1, None),
+        "Day 10 part 2, ----": (day_10.solve_part_2, None),
+        "Day 11 part 1, ----": (day_11.solve_part_1, None),
+        "Day 11 part 2, ----": (day_11.solve_part_2, None),
+        "Day 12 part 1, ----": (day_12.solve_part_1, None),
+        "Day 12 part 2, ----": (day_12.solve_part_2, None),
+        "Day 13 part 1, ----": (day_13.solve_part_1, None),
+        "Day 13 part 2, ----": (day_13.solve_part_2, None),
+        "Day 14 part 1, ----": (day_14.solve_part_1, None),
+        "Day 14 part 2, ----": (day_14.solve_part_2, None),
+        "Day 15 part 1, ----": (day_15.solve_part_1, None),
+        "Day 15 part 2, ----": (day_15.solve_part_2, None),
+        "Day 16 part 1, ----": (day_16.solve_part_1, None),
+        "Day 16 part 2, ----": (day_16.solve_part_2, None),
+        "Day 17 part 1, ----": (day_17.solve_part_1, None),
+        "Day 17 part 2, ----": (day_17.solve_part_2, None),
+        "Day 18 part 1, ----": (day_18.solve_part_1, None),
+        "Day 18 part 2, ----": (day_18.solve_part_2, None),
+        "Day 19 part 1, ----": (day_19.solve_part_1, None),
+        "Day 19 part 2, ----": (day_19.solve_part_2, None),
+        "Day 20 part 1, ----": (day_20.solve_part_1, None),
+        "Day 20 part 2, ----": (day_20.solve_part_2, None),
+        "Day 21 part 1, ----": (day_21.solve_part_1, None),
+        "Day 21 part 2, ----": (day_21.solve_part_2, None),
+        "Day 22 part 1, ----": (day_22.solve_part_1, None),
+        "Day 22 part 2, ----": (day_22.solve_part_2, None),
+        "Day 23 part 1, ----": (day_23.solve_part_1, None),
+        "Day 23 part 2, ----": (day_23.solve_part_2, None),
+        "Day 24 part 1, ----": (day_24.solve_part_1, None),
+        "Day 24 part 2, ----": (day_24.solve_part_2, None),
+        "Day 25 part 1, ----": (day_25.solve_part_1, None),
+        "Day 25 part 2, ----": (day_25.solve_part_2, None),
     }
 
     errors: List[str] = []
@@ -97,9 +115,9 @@ def main():
     for description, solver in solutions.items():
         try:
             print_solution(description, solver[0](*solver[1::]))
-        except NotStartedError as e:
+        except NotImplementedError as e:
             errors.append(str(e))
-        except WorkingOnItError as e:
+        except UnderConstructionError as e:
             in_progress.append(str(e))
 
     errors[::4] = [f"\n{err}" for err in errors[::4]]

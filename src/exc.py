@@ -1,14 +1,25 @@
-class NotStartedError(Exception):
+from typing import Callable
+
+
+class NotImplementedError(Exception):
     ...
 
 
-class WorkingOnItError(Exception):
+class UnderConstructionError(Exception):
     ...
 
 
-def WORKING_ON_IT(name):
-    raise WorkingOnItError(f"{name}")
+def under_construction(func: Callable):
+    def exc_wrap(*args, **kwargs):
+        func(*args, **kwargs)
+        raise UnderConstructionError(func.__module__.split(".")[1] + "." + func.__name__)
+
+    return exc_wrap
 
 
-def NOT_STARTED(name):
-    raise NotStartedError(f"{name}")
+def not_implemented(func: Callable):
+    def exc_wrap(*args, **kwargs):
+        func(*args, **kwargs)
+        raise NotImplementedError(func.__module__.split(".")[1] + "." + func.__name__)
+
+    return exc_wrap

@@ -1,5 +1,11 @@
-from exc import NOT_STARTED
+from exc import not_implemented
 
 
-def solve(input):
-    NOT_STARTED(__name__)
+@not_implemented
+def solve_part_1(input_path: str):
+    ...
+
+
+@not_implemented
+def solve_part_2(input_path: str):
+    ...
