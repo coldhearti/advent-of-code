@@ -1,7 +1,17 @@
 from typing import List
+
 from termcolor import colored
+
 from days import (
     day_1,
+    day_2,
+    day_3,
+    day_4,
+    day_5,
+    day_6,
+    day_7,
+    day_8,
+    day_9,
     day_10,
     day_11,
     day_12,
@@ -12,20 +22,12 @@ from days import (
     day_17,
     day_18,
     day_19,
-    day_2,
     day_20,
     day_21,
     day_22,
     day_23,
     day_24,
     day_25,
-    day_3,
-    day_4,
-    day_5,
-    day_6,
-    day_7,
-    day_8,
-    day_9,
 )
 from exc import NotImplementedError, UnderConstructionError
 
@@ -74,8 +76,8 @@ def main():
         "Day 7 part 2, Smallest directory of required size": (day_7.solve_part_2, "./inputs/day_7"),
         "Day 8 part 1, Number of visible trees": (day_8.solve_part_1, "./inputs/day_8"),
         "Day 8 part 2, Highest possible scenic score": (day_8.solve_part_2, "./inputs/day_8"),
-        "Day 9 part 1, ----": (day_9.solve_part_1, None),
-        "Day 9 part 2, ----": (day_9.solve_part_2, None),
+        "Day 9 part 1, Number of positions the rope tail visited": (day_9.solve_part_1, "./inputs/day_9"),
+        "Day 9 part 2, ----": (day_9.solve_part_2, "./inputs/day_9"),
         "Day 10 part 1, Sum of signal strengths": (day_10.solve_part_1, "./inputs/day_10"),
         "Day 10 part 2, Drawn image": (day_10.solve_part_2, "./inputs/day_10"),
         "Day 11 part 1, ----": (day_11.solve_part_1, None),
