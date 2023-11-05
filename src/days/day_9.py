@@ -1,118 +1,128 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import List
 
-from exc import not_implemented
+
+@dataclass
+class DirectionArguments:
+    char: str
+    step_x: int
+    step_y: int
 
 
-class MovementDirection(Enum):
-    LEFT = "L"
-    UP = "U"
-    RIGHT = "R"
-    DOWN = "D"
+class Direction(Enum):
+    UP = DirectionArguments("U", 0, -1)
+    DOWN = DirectionArguments("D", 0, 1)
+    LEFT = DirectionArguments("L", -1, 0)
+    RIGHT = DirectionArguments("R", 1, 0)
 
     @staticmethod
     def from_string(string: str):
-        for dir in MovementDirection:
-            if dir.value == string:
+        for dir in Direction:
+            if dir.value.char == string:
                 return dir
         return None
 
 
 @dataclass
 class Move:
-    direction: MovementDirection
+    direction: Direction
     step_size: int
 
 
-def init_set(x, y):
-    return lambda: set([(x, y)])
-
-
-@dataclass
 class Knot:
-    x: int = 0
-    y: int = 0
-    visited: set = field(default_factory=init_set(x, y))
+    def __init__(self) -> None:
+        self.x: int = 0
+        self.y: int = 0
+        self.visited: set = set([(self.x, self.y)])
+
+    def step_position(self, delta_x, delta_y):
+        self.x += delta_x
+        self.y += delta_y
+        self.visited.add((self.x, self.y))
+
+
+class RopeElement:
+    def __init__(self, head: Knot = None) -> None:
+        self.head = head
+        if self.head is None:
+            self.head = Knot()
+        self.tail: Knot = Knot()
+
+    def update_tail(self):
+        delta_x = self.head.x - self.tail.x
+        delta_y = self.head.y - self.tail.y
+
+        # Limit the deltas to be in [-1, 1]
+        abs_delta_x = abs(delta_x)
+        if abs_delta_x > 0:
+            delta_x = min(max(-1, delta_x), 1)
+        abs_delta_y = abs(delta_y)
+        if abs_delta_y > 0:
+            delta_y = min(max(-1, delta_y), 1)
+
+        # Diagonal move conditionals
+        h_move = abs_delta_x > 0
+        v_move = abs_delta_y > 0
+        diag_move = abs_delta_x > 1 or abs_delta_y > 1
+
+        if h_move and v_move and diag_move:
+            # Diagonal move.
+            self.tail.step_position(delta_x, delta_y)
+        elif abs_delta_x >= 2:
+            # Horizontal move.
+            self.tail.step_position(delta_x, 0)
+        elif abs_delta_y >= 2:
+            # Vertical move.
+            self.tail.step_position(0, delta_y)
+
+    def move_head(self, move: Move):
+        for _ in range(move.step_size):
+            # Step through the move to update tail properly
+            self.head.step_position(move.direction.value.step_x, move.direction.value.step_y)
+            self.update_tail()
 
 
 class Rope:
-    tail: Knot = Knot()
-    head: Knot = Knot()
-
-    def __update_tail(self):
-        delta_x = self.head.x - self.tail.x
-        delta_y = self.head.y - self.tail.y
-        abs_delta_x = abs(delta_x)
-        abs_delta_y = abs(delta_y)
-        if abs_delta_x > 0 and abs_delta_y > 0:
-            # DIAGONAL MOVE
-            if abs_delta_x > abs_delta_y:
-                # MOVE NEXT TO HEAD
-                self.tail.y = self.head.y
-                if delta_x > 0:
-                    self.tail.x += 1
-                else:
-                    self.tail.x -= 1
-                abs_delta_x -= 1
-                self.tail.visited.add((self.tail.x, self.tail.y))
-            elif abs_delta_x < abs_delta_y:
-                # MOVE ON TOP OR UNDER THE HEAD
-                self.tail.x = self.head.x
-                if delta_y > 0:
-                    self.tail.y += 1
-                else:
-                    self.tail.y -= 1
-                abs_delta_y -= 1
-                self.tail.visited.add((self.tail.x, self.tail.y))
-
-        # LATERAL MOVE
-        if abs_delta_x > 0:
-            if delta_x > 0:
-                self.__update_knot_coord(self.tail, 1, abs_delta_x - 1)
-            else:
-                self.__update_knot_coord(self.tail, -1, abs_delta_x - 1)
-        if abs_delta_y > 0:
-            if delta_y > 0:
-                self.__update_knot_coord(self.tail, 1, abs_delta_y - 1, True)
-            else:
-                self.__update_knot_coord(self.tail, -1, abs_delta_y - 1, True)
-
-    def __update_knot_coord(self, knot: Knot, step: int, step_size: int, vertical=False):
-        for _ in range(step_size):
-            if vertical:
-                knot.y += step
-            else:
-                knot.x += step
-            knot.visited.add((knot.x, knot.y))
+    def __init__(self, num_knots=10) -> None:
+        self.head = Knot()
+        self.elements: List[RopeElement] = [RopeElement(self.head)]
+        root = self.elements[0]
+        for _ in range(num_knots - 2):  # -2 to ensure correct number of initializations
+            root = RopeElement(root.tail)
+            self.elements.append(root)
+        self.tail = self.elements[-1].tail
 
     def move_head(self, move: Move):
-        match move.direction:
-            case MovementDirection.UP:
-                self.__update_knot_coord(self.head, -1, move.step_size, True)
-            case MovementDirection.DOWN:
-                self.__update_knot_coord(self.head, 1, move.step_size, True)
-            case MovementDirection.LEFT:
-                self.__update_knot_coord(self.head, -1, move.step_size, False)
-            case MovementDirection.RIGHT:
-                self.__update_knot_coord(self.head, 1, move.step_size, False)
-        self.__update_tail()
+        for _ in range(move.step_size):
+            # Step through the move to ensure proper tail updates
+            self.head.step_position(move.direction.value.step_x, move.direction.value.step_y)
+            for element in self.elements:
+                element.update_tail()
 
 
-def solve_part_1(input_path: str):
+def parse_moves(input_path):
     moves: List[Move] = []
     with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             dir, step = line.split(" ")
-            moves.append(Move(MovementDirection.from_string(dir), int(step)))
+            moves.append(Move(Direction.from_string(dir), int(step)))
+    return moves
 
-    rope = Rope()
+
+def solve_part_1(input_path: str):
+    moves = parse_moves(input_path)
+    rope = RopeElement()
     for move in moves:
         rope.move_head(move)
     return len(rope.tail.visited)
 
 
-@not_implemented
 def solve_part_2(input_path: str):
-    ...
+    moves = parse_moves(input_path)
+    rope = Rope(10)
+    for move in moves:
+        rope.move_head(move)
+
+    return len(rope.tail.visited)
