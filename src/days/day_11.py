@@ -2,21 +2,21 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from functools import reduce
+from operator import mul
 from typing import Callable, List
-
-from exc import not_implemented
 
 NUM_CHECK_ROUNDS = 20
 
 
 @dataclass
 class MonkeyTest:
-    divisible_by: int
-    _if_true_throw_to: int = None
-    _if_false_throw_to: int = None
+    divisor: int
+    true_recipient: int = None
+    false_recipient: int = None
 
     def execute(self, worry_level: int) -> int:
-        return self._if_true_throw_to if worry_level % self.divisible_by == 0 else self._if_false_throw_to
+        return self.true_recipient if worry_level % self.divisor == 0 else self.false_recipient
 
 
 @dataclass
@@ -82,17 +82,17 @@ def parse_monkeys(input_path):
                     monkey_test = MonkeyTest(divisible_by)
                     new_monkey.test = monkey_test
                 elif line.startswith("If true"):
-                    new_monkey.test._if_true_throw_to = int(line.split(":")[-1].split(" throw to monkey ")[-1].strip(" \n"))
+                    new_monkey.test.true_recipient = int(line.split(":")[-1].split(" throw to monkey ")[-1].strip(" \n"))
                 elif line.startswith("If false"):
-                    new_monkey.test._if_false_throw_to = int(line.split(":")[-1].split(" throw to monkey ")[-1].strip(" \n"))
+                    new_monkey.test.false_recipient = int(line.split(":")[-1].split(" throw to monkey ")[-1].strip(" \n"))
         if new_monkey is not None:
             monkeys.append(new_monkey)
     return monkeys
 
 
-def do_inspection_rounds(monkeys: List[Monkey]):
+def do_inspection_rounds(monkeys: List[Monkey], num_rounds: int, worry_level_function: Callable[[int], int]):
     monkey_inspection_map = {}
-    for _ in range(NUM_CHECK_ROUNDS):
+    for _ in range(num_rounds):
         for monkey_idx, monkey in enumerate(monkeys):
             if monkey_idx not in monkey_inspection_map:
                 monkey_inspection_map[monkey_idx] = 0
@@ -100,19 +100,26 @@ def do_inspection_rounds(monkeys: List[Monkey]):
                 item = monkey.starting_items.pop(0)
                 monkey_inspection_map[monkey_idx] += 1
                 item = monkey.operation.execute(item)
-                item = int(item / 3)
+                item = worry_level_function(item)
                 monkeys[monkey.test.execute(item)].starting_items.append(item)
+
     return monkey_inspection_map
 
 
 def solve_part_1(input_path: str):
+    NUM_INSPECTION_ROUNDS = 20
     monkeys = parse_monkeys(input_path)
-    monkey_inspection_map = do_inspection_rounds(monkeys)
+    monkey_inspection_map = do_inspection_rounds(monkeys, NUM_INSPECTION_ROUNDS, lambda val: int(val / 3))
     top_two_monkeys = sorted(list(monkey_inspection_map.items()), key=lambda x: x[1], reverse=True)[0:2]
     level_of_monkey_business = top_two_monkeys[0][1] * top_two_monkeys[1][1]
     return level_of_monkey_business
 
 
-@not_implemented
 def solve_part_2(input_path: str):
-    ...
+    NUM_INSPECTION_ROUNDS = 10000
+    monkeys = parse_monkeys(input_path)
+    common_multiple = reduce(mul, [monkey.test.divisor for monkey in monkeys])
+    monkey_inspection_map = do_inspection_rounds(monkeys, NUM_INSPECTION_ROUNDS, lambda val: val % common_multiple)
+    top_two_monkeys = sorted(list(monkey_inspection_map.items()), key=lambda x: x[1], reverse=True)[0:2]
+    level_of_monkey_business = top_two_monkeys[0][1] * top_two_monkeys[1][1]
+    return level_of_monkey_business
