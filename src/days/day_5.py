@@ -1,6 +1,7 @@
-from dataclasses import dataclass
 import re
-from typing import Dict, List, Tuple
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 
 @dataclass(init=True)
@@ -10,26 +11,27 @@ class StackMove:
     to_stack: int
 
 
-def parse_move(line: str) -> StackMove:
+def parse_move(line: str) -> Optional[StackMove]:
     if line.startswith("move"):
         regex = re.match(r"move (\d+) from (\d+) to (\d+)", line)
-        return StackMove(*tuple(map(int, regex.groups())))
+        if regex is not None:
+            return StackMove(*tuple(map(int, regex.groups())))
     return None
 
 
 def parse_stack_level(line: str) -> List[str]:
-    split_line = []
+    split_line: List[str] = []
     for i in range(0, len(line), 4):
         split_line.append(line[i : i + 3].strip("[] "))
     return split_line
 
 
-def parse_stacks_and_moves(input_path) -> Tuple[Dict[int, List[str]], List[StackMove]]:
+def parse_stacks_and_moves(input_path: Path) -> Tuple[Dict[int, List[str]], List[StackMove]]:
     stacks: Dict[int, List[str]] = {}
     moves: List[StackMove] = []
     with open(input_path, mode="r") as fp:
         lines: List[str] = fp.readlines()
-        stack_start = []
+        stack_start: List[List[str]] = []
         for line in lines:
             move = parse_move(line)
             if move is not None:
@@ -45,22 +47,24 @@ def parse_stacks_and_moves(input_path) -> Tuple[Dict[int, List[str]], List[Stack
     return stacks, moves
 
 
-def solve_part_1(input_path):
-    stacks, moves = parse_stacks_and_moves(input_path)
-    for move in moves:
-        for _ in range(move.num_items):
-            item = stacks[move.from_stack].pop()
-            stacks[move.to_stack].append(item)
-    top_of_stacks = [stacks[stack].pop() for stack in stacks]
-    return "".join(top_of_stacks)
+def solve_part_1(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        stacks, moves = parse_stacks_and_moves(input_path)
+        for move in moves:
+            for _ in range(move.num_items):
+                item = stacks[move.from_stack].pop()
+                stacks[move.to_stack].append(item)
+        top_of_stacks = [stacks[stack].pop() for stack in stacks]
+        return "".join(top_of_stacks)
 
 
-def solve_part_2(input_path):
-    stacks, moves = parse_stacks_and_moves(input_path)
-    for move in moves:
-        items = stacks[move.from_stack][-move.num_items : :]
-        for _ in range(move.num_items):
-            stacks[move.from_stack].pop()
-        stacks[move.to_stack].extend(items)
-    top_of_stacks = [stacks[stack].pop() for stack in stacks]
-    return "".join(top_of_stacks)
+def solve_part_2(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        stacks, moves = parse_stacks_and_moves(input_path)
+        for move in moves:
+            items = stacks[move.from_stack][-move.num_items : :]
+            for _ in range(move.num_items):
+                stacks[move.from_stack].pop()
+            stacks[move.to_stack].extend(items)
+        top_of_stacks = [stacks[stack].pop() for stack in stacks]
+        return "".join(top_of_stacks)

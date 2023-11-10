@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
+from typing import Any, Optional
 
 
 class Points(Enum):
@@ -18,7 +21,7 @@ class StrategyMap(Enum):
     DRAW = "Y"
     WIN = "Z"
 
-    def get_result(self: StrategyMap, opponent_shape: ShapeMap):
+    def get_result(self: StrategyMap, opponent_shape: ShapeMap) -> ShapeMap:
         match self:
             case StrategyMap.WIN:
                 return opponent_shape.loses_against
@@ -28,10 +31,11 @@ class StrategyMap(Enum):
                 return opponent_shape
 
     @staticmethod
-    def parse_strategy(char: str):
+    def parse_strategy(char: str) -> Optional[StrategyMap]:
         for strategy in StrategyMap:
             if strategy.value == char:
                 return strategy
+        return None
 
 
 @dataclass(init=True)
@@ -65,13 +69,13 @@ class ShapeMap(Enum):
         return winner_map[self]
 
     @staticmethod
-    def parse_shape(char: str):
+    def parse_shape(char: str) -> Optional[ShapeMap]:
         for shape in ShapeMap:
             if char in [shape.value.player_char, shape.value.opponent_char]:
                 return shape
         return None
 
-    def get_result(self: ShapeMap, opponent_shape: ShapeMap):
+    def get_result(self: ShapeMap, opponent_shape: ShapeMap) -> int:
         match self.name:
             case opponent_shape.name:
                 return Points.DRAW.value + self.value.score
@@ -81,28 +85,33 @@ class ShapeMap(Enum):
                 return Points.LOST.value + self.value.score
 
 
-def solve_part_1(input_path):
-    score = 0
-    with open(input_path, mode="r") as fp:
-        lines = fp.readlines()
-        for line in lines:
-            line = line.rstrip("\n")
-            opponent, player = line.split(" ")
-            opponent: ShapeMap = ShapeMap.parse_shape(opponent)
-            player: ShapeMap = ShapeMap.parse_shape(player)
-            score += player.get_result(opponent)
-    return score
+def solve_part_1(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        score = 0
+        with open(input_path, mode="r") as fp:
+            lines = fp.readlines()
+            for line in lines:
+                line = line.rstrip("\n")
+                opponent, player = line.split(" ")
+                opponent = ShapeMap.parse_shape(opponent)
+                player = ShapeMap.parse_shape(player)
+                if player is not None and opponent is not None:
+                    score += player.get_result(opponent)
+        return score
 
 
-def solve_part_2(input_path):
-    score = 0
-    with open(input_path, mode="r") as fp:
-        lines = fp.readlines()
-        for line in lines:
-            line = line.rstrip("\n")
-            opponent, player = line.split(" ")
-            opponent: ShapeMap = ShapeMap.parse_shape(opponent)
-            strategy = StrategyMap.parse_strategy(player)
-            player = strategy.get_result(opponent)
-            score += player.get_result(opponent)
-    return score
+def solve_part_2(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        score = 0
+        with open(input_path, mode="r") as fp:
+            lines = fp.readlines()
+            for line in lines:
+                line = line.rstrip("\n")
+                opponent, player = line.split(" ")
+                opponent = ShapeMap.parse_shape(opponent)
+                if opponent is not None:
+                    strategy = StrategyMap.parse_strategy(player)
+                    if strategy is not None:
+                        player = strategy.get_result(opponent)
+                        score += player.get_result(opponent)
+        return score

@@ -13,3 +13,7 @@ where = ["src"]
 
 [tool.setuptools.dynamic]
 version = { attr = "main.__version__" }
+
+[tool.pyright]
+stubPath = "./src/stub"
+pythonVersion = "3.11"

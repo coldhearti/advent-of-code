@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import List
+from pathlib import Path
+from typing import Any, List, Optional
 
 
 @dataclass
@@ -7,7 +8,7 @@ class Elf:
     calories: int = 0
 
 
-def get_elves(input_path):
+def get_elves(input_path: Path) -> List[Elf]:
     elves: List[Elf] = []
     with open(input_path, mode="r") as fp:
         lines = fp.readlines()
@@ -22,9 +23,11 @@ def get_elves(input_path):
     return elves
 
 
-def solve_part_1(input_path):
-    return get_elves(input_path)[-1].calories
+def solve_part_1(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        return get_elves(input_path)[-1].calories
 
 
-def solve_part_2(input_path):
-    return sum([elf.calories for elf in get_elves(input_path)[-3::]])
+def solve_part_2(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        return sum([elf.calories for elf in get_elves(input_path)[-3::]])

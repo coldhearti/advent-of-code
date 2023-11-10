@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
+from pathlib import Path
+from typing import Any, List, Optional, Set, Tuple
 
 
 @dataclass
@@ -17,7 +20,7 @@ class Direction(Enum):
     RIGHT = DirectionArguments("R", 1, 0)
 
     @staticmethod
-    def from_string(string: str):
+    def from_string(string: str) -> Optional[Direction]:
         for dir in Direction:
             if dir.value.char == string:
                 return dir
@@ -34,22 +37,23 @@ class Knot:
     def __init__(self) -> None:
         self.x: int = 0
         self.y: int = 0
-        self.visited: set = set([(self.x, self.y)])
+        self.visited: Set[Tuple[int, int]] = set([(self.x, self.y)])
 
-    def step_position(self, delta_x, delta_y):
+    def step_position(self, delta_x: int, delta_y: int) -> None:
         self.x += delta_x
         self.y += delta_y
         self.visited.add((self.x, self.y))
 
 
 class RopeElement:
-    def __init__(self, head: Knot = None) -> None:
-        self.head = head
-        if self.head is None:
+    def __init__(self, head: Optional[Knot] = None) -> None:
+        if head is None:
             self.head = Knot()
+        else:
+            self.head = head
         self.tail: Knot = Knot()
 
-    def update_tail(self):
+    def update_tail(self) -> None:
         delta_x = self.head.x - self.tail.x
         delta_y = self.head.y - self.tail.y
 
@@ -76,7 +80,7 @@ class RopeElement:
             # Vertical move.
             self.tail.step_position(0, delta_y)
 
-    def move_head(self, move: Move):
+    def move_head(self, move: Move) -> None:
         for _ in range(move.step_size):
             # Step through the move to update tail properly
             self.head.step_position(move.direction.value.step_x, move.direction.value.step_y)
@@ -84,7 +88,7 @@ class RopeElement:
 
 
 class Rope:
-    def __init__(self, num_knots=10) -> None:
+    def __init__(self, num_knots: int = 10) -> None:
         self.head = Knot()
         self.elements: List[RopeElement] = [RopeElement(self.head)]
         root = self.elements[0]
@@ -93,7 +97,7 @@ class Rope:
             self.elements.append(root)
         self.tail = self.elements[-1].tail
 
-    def move_head(self, move: Move):
+    def move_head(self, move: Move) -> None:
         for _ in range(move.step_size):
             # Step through the move to ensure proper tail updates
             self.head.step_position(move.direction.value.step_x, move.direction.value.step_y)
@@ -101,28 +105,34 @@ class Rope:
                 element.update_tail()
 
 
-def parse_moves(input_path):
+def parse_moves(input_path: Path) -> List[Move]:
     moves: List[Move] = []
     with open(input_path, mode="r") as fp:
         lines = fp.readlines()
         for line in lines:
             dir, step = line.split(" ")
-            moves.append(Move(Direction.from_string(dir), int(step)))
+            dir = Direction.from_string(dir)
+            if dir is not None:
+                moves.append(Move(dir, int(step)))
+            else:
+                raise ValueError(f"Direction could not be parsed from line: {line}")
     return moves
 
 
-def solve_part_1(input_path: str):
-    moves = parse_moves(input_path)
-    rope = RopeElement()
-    for move in moves:
-        rope.move_head(move)
-    return len(rope.tail.visited)
+def solve_part_1(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        moves = parse_moves(input_path)
+        rope = RopeElement()
+        for move in moves:
+            rope.move_head(move)
+        return len(rope.tail.visited)
 
 
-def solve_part_2(input_path: str):
-    moves = parse_moves(input_path)
-    rope = Rope(10)
-    for move in moves:
-        rope.move_head(move)
+def solve_part_2(input_path: Optional[Path]) -> Any:
+    if input_path is not None:
+        moves = parse_moves(input_path)
+        rope = Rope(10)
+        for move in moves:
+            rope.move_head(move)
 
-    return len(rope.tail.visited)
+        return len(rope.tail.visited)
