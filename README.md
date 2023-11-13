@@ -36,8 +36,8 @@ pip uninstall aoc2022
 ~~~
 
 ## To run:
-Navigate to the package folder and run:
+The installation includes a runnable cli script:
 ~~~bash
-python ./src/main.py
+aoc2022
 ~~~
 Solutions print to CLI.
